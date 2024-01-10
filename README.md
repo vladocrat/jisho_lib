@@ -13,6 +13,7 @@ This lib is written in:
 * C++17
 * Qt 5.15.2
 * Cmake 3.14
+* OpenSSL 3.2.0
 
 ## Usage
 
