@@ -15,9 +15,10 @@ jobs:
         build_type: [Release, Debug]
 
     runs-on: ${{ matrix.os }}
-
-    steps:               
-    - name: Install Qt
+    
+    steps:      
+    - name: "Install Qt (Linux)"
+      if: ${{ matrix.os == 'ubuntu-20.04' }}
       uses: jurplel/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
@@ -27,7 +28,15 @@ jobs:
         arch: 'gcc_64'
         tools: 'tools_cmake tools_opensslv3_src'
 
-    - name: Install Qt
+    - name: "Set OS-specific values (Linux)"
+      if: ${{ runner.os == 'Linux' }}
+      shell: bash
+      run: |
+       echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
+       echo "CORES=$(nproc --all)" >> $GITHUB_ENV
+       
+    - name: "Install Qt (Win; 2019)"
+      if: ${{ matrix.os == 'windows-2019' }}
       uses: jurplel/install-qt-action@v3
       with:
         aqtversion: '==3.1.*'
@@ -37,13 +46,6 @@ jobs:
         arch: 'win64_msvc2019_64'
         tools: 'tools_cmake tools_opensslv3_x64'
     
-    - name: "Set OS-specific values (Linux)"
-      if: ${{ runner.os == 'Linux' }}
-      shell: bash
-      run: |
-       echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
-       echo "CORES=$(nproc --all)" >> $GITHUB_ENV
-
     - name: "Set OS-specific values (Win; 2019)"
       if: ${{ matrix.os == 'windows-2019' }}
       shell: bash
