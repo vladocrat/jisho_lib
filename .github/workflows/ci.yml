@@ -11,7 +11,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-10.15, windows-2019]
+        os: [ubuntu-20.04, windows-2019]
         build_type: [Release, Debug]
 
     runs-on: ${{ matrix.os }}
@@ -21,15 +21,10 @@ jobs:
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
+       sudo apt-get install qt5-default
+       echo "CMAKE_PREFIX_PATH=${{env.CMAKE_PREFIX_PATH}}:/opt/Qt5/bin" >> $GITHUB_ENV
        echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
        echo "CORES=$(nproc --all)" >> $GITHUB_ENV
-
-    - name: "Set OS-specific values (Mac)"
-      if: ${{ runner.os == 'macOS' }}
-      shell: bash
-      run: |
-       echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
-       echo "CORES=$(sysctl -n hw.ncpu)" >> $GITHUB_ENV
 
     - name: "Set OS-specific values (Win; 2019)"
       if: ${{ matrix.os == 'windows-2019' }}
