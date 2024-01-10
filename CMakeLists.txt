@@ -21,6 +21,7 @@ add_executable(jisho_lib
   singleton.h
   requestparser.h requestparser.cpp
   translation.h
+  apihandler.h apihandler.cpp
 )
 
 target_link_libraries(jisho_lib Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network

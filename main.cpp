@@ -1,20 +1,21 @@
 #include <QCoreApplication>
 
-#include "networkhandler.h"
-#include "requestparser.h"
+#include <QDebug>
+
+#include "apihandler.h"
+#include "translation.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    NetworkHandler handler;
-    auto reply = handler.request(QUrl("https://jisho.org/search/こんにちは"));
+    auto handler = new ApiHandler;
 
-    QObject::connect(reply, &QNetworkReply::finished, [reply]() {
-        RequestParser parser;
-        auto translations = parser.parse(reply->readAll());
+    QObject::connect(handler, &ApiHandler::finished, [](const QVector<Translation>& translations){
         qDebug() << translations;
     });
+
+    handler->translate("こんにちは");
 
     return a.exec();
 }
