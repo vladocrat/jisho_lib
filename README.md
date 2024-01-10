@@ -1,5 +1,7 @@
 # Jisho_lib
 
+![multiplatform build](https://github.com/vladocrat/jisho_lib/actions/workflows/ci.yml/badge.svg)
+
 ## !IN DEVELOPMENT 
 
 This is a web scrapping lib for accessing [jisho.org](https://jisho.org/). Since they don't have any public API's and I kinda wanted to use their massive dictionary for a quick desktop access.
