@@ -66,6 +66,7 @@ jobs:
       run: |
        echo "GENERATOR=Visual Studio 16 2019" >> $GITHUB_ENV
        echo "CORES=$NUMBER_OF_PROCESSORS" >> $GITHUB_ENV
+       echo "OPENSSL_ROOT_DIR=$env:ProgramFiles\openssl" >> $GITHUB_ENV
 
     - uses: actions/checkout@v2
       with:
