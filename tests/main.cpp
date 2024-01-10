@@ -10,7 +10,6 @@ int main(int argc, char** argv)
 
     QTimer::singleShot(0, [&]()
     {
-
         auto res = RUN_ALL_TESTS();
         a.exit(res);
     });
