@@ -1,6 +1,6 @@
 # Jisho_lib
 
-![multiplatform build](https://github.com/vladocrat/jisho_lib/actions/workflows/ci.yml/badge.svg)
+![Build & test](https://github.com/vladocrat/jisho_lib/actions/workflows/ci.yml/badge.svg)
 
 ## !IN DEVELOPMENT 
 
