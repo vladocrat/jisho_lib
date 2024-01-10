@@ -1,6 +1,6 @@
 # Jisho_lib
 
-![Build & test](https://github.com/vladocrat/jisho_lib/actions/workflows/ci.yml/badge.svg)
+![Build & test](https://github.com/vladocrat/jisho_lib/actions/workflows/ci.yml/badge.svg?event=push)
 
 ## !IN DEVELOPMENT 
 
