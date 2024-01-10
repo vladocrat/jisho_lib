@@ -11,3 +11,22 @@ This lib is written in:
 * C++17
 * Qt 5.15.2
 * Cmake 3.14
+
+## Usage
+
+```C++
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+
+    auto handler = new ApiHandler;
+
+    QObject::connect(handler, &ApiHandler::finished, [](const QVector<Translation>& translations){
+        qDebug() << translations;
+    });
+
+    handler->translate("こんにちは");
+
+    return a.exec();
+}
+```
