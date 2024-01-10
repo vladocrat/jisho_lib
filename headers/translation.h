@@ -3,6 +3,9 @@
 #include <QString>
 #include <tuple>
 
+namespace JL
+{
+
 struct Translation {
     QString furigana;
     QString kanji;
@@ -13,18 +16,20 @@ struct Translation {
         return "Furigana: " + furigana + " Kanji: " + kanji + " Meaning: " + meaning;
     }
 
-    constexpr auto asTuple() const
+    [[nodiscard]] constexpr auto asTuple() const noexcept
     {
         return std::tie(furigana, kanji, meaning);
     }
 };
 
-[[nodiscard]] inline bool operator==(const Translation& lhs, const Translation& rhs)
+[[nodiscard]] constexpr inline bool operator==(const Translation& lhs, const Translation& rhs)
 {
     return lhs.asTuple() == rhs.asTuple();
 }
 
-[[nodiscard]] inline bool operator!=(const Translation& lhs, const Translation& rhs)
+[[nodiscard]] constexpr inline bool operator!=(const Translation& lhs, const Translation& rhs)
 {
     return lhs.asTuple() != rhs.asTuple();
 }
+
+} //! JL

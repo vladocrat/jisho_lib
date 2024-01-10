@@ -9,9 +9,9 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    auto handler = new ApiHandler;
+    auto handler = new JL::ApiHandler;
 
-    QObject::connect(handler, &ApiHandler::finished, [](const QVector<Translation>& translations){
+    QObject::connect(handler, &JL::ApiHandler::finished, [](const QVector<JL::Translation>& translations){
         for (const auto& translation : translations)
         {
             qDebug() << translation;

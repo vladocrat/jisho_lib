@@ -7,10 +7,11 @@
 
 namespace Internal
 {
+
 QVector<QString> getBlocks(const QString& htmlContent)
 {
     QVector<QString> blocks;
-    QRegularExpression regex("<div\\s+class=\"concept_light\\s+clearfix\"[^>]*>(.*?)Details \xE2\x96\xB8</a></div>", QRegularExpression::DotMatchesEverythingOption);
+    static QRegularExpression regex("<div\\s+class=\"concept_light\\s+clearfix\"[^>]*>(.*?)Details \xE2\x96\xB8</a></div>", QRegularExpression::DotMatchesEverythingOption);
 
     QRegularExpressionMatchIterator matchIterator = regex.globalMatch(htmlContent);
 
@@ -38,6 +39,9 @@ QString prepareDoc(const QString& doc)
 }
 
 } //! Internal
+
+namespace JL
+{
 
 QVector<Translation> RequestParser::parse(const QString& data) noexcept
 {
@@ -112,3 +116,5 @@ QVector<Translation> RequestParser::parse(const QString& data) noexcept
 
     return ret;
 }
+
+} //! JL

@@ -6,6 +6,9 @@
 #include "utils/pimpl.h"
 #include "translation.h"
 
+namespace JL
+{
+
 class ApiHandler final : public QObject
 {
     Q_OBJECT
@@ -22,3 +25,4 @@ private:
     DECLARE_PIMPL
 };
 
+} //! JL

@@ -5,9 +5,9 @@
 
 TEST(TranslationEq, TranslationObj)
 {
-    Translation t1 {"あり", "がと", "おう"};
-    Translation t2 {"あり", "がと", "おう"};
-    Translation t3 {"あり", "がと", " "};
+    JL::Translation t1 {"あり", "がと", "おう"};
+    JL::Translation t2 {"あり", "がと", "おう"};
+    JL::Translation t3 {"あり", "がと", " "};
 
     EXPECT_EQ(t1, t2);
     ASSERT_NE(t1, t3);
@@ -15,13 +15,13 @@ TEST(TranslationEq, TranslationObj)
 
 TEST(JishoLib, GeneralTranslateTest)
 {
-    Translation t1 {};
-    Translation t2 {};
-    Translation t3 {};
+    JL::Translation t1 {};
+    JL::Translation t2 {};
+    JL::Translation t3 {};
 
-    auto handler = new ApiHandler;
+    auto handler = new JL::ApiHandler;
 
-    QObject::connect(handler, &ApiHandler::finished, [](const QVector<Translation>& translations){
+    QObject::connect(handler, &JL::ApiHandler::finished, [](const QVector<JL::Translation>& translations){
         for (const auto& translation : translations)
         {
             qDebug() << translation;

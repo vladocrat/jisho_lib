@@ -2,6 +2,9 @@
 
 #include "translation.h"
 
+namespace JL
+{
+
 class RequestParser final
 {
 public:
@@ -10,3 +13,5 @@ public:
 
     [[nodiscard]] QVector<Translation> parse(const QString& data) noexcept;
 };
+
+} //! JL

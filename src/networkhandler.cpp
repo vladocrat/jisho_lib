@@ -1,5 +1,8 @@
 #include "networkhandler.h"
 
+namespace JL
+{
+
 struct NetworkHandler::impl_t
 {
     QNetworkAccessManager qnam;
@@ -44,3 +47,5 @@ const QNetworkAccessManager* NetworkHandler::qnam() const noexcept
 {
     return &impl().qnam;
 }
+
+} //! JL

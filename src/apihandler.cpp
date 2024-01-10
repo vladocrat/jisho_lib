@@ -6,7 +6,10 @@
 namespace Constants
 {
 constexpr static char const* address { "https://jisho.org/search/" };
-} // Contants
+} //! Contants
+
+namespace JL
+{
 
 struct ApiHandler::impl_t
 {
@@ -34,3 +37,5 @@ void ApiHandler::translate(const QString& word) noexcept
         emit finished(translations);
     });
 }
+
+} //! JL

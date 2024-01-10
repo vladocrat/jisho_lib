@@ -5,6 +5,9 @@
 #include "utils/pimpl.h"
 #include "utils/singleton.h"
 
+namespace JL
+{
+
 class NetworkHandler final : public Singleton<NetworkHandler>
 {
 public:
@@ -20,4 +23,4 @@ private:
     DECLARE_PIMPL
 };
 
-
+} //! JL
