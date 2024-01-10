@@ -16,13 +16,31 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    steps:
+    steps:               
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==3.1.*'
+        version: '5.15.2'
+        host: 'linux'
+        target: 'desktop'
+        arch: 'gcc_64'
+        tools: 'tools_cmake tools_opensslv3_src'
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        aqtversion: '==3.1.*'
+        version: '5.15.2'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        tools: 'tools_cmake tools_opensslv3_x64'
+    
     - name: "Set OS-specific values (Linux)"
       if: ${{ runner.os == 'Linux' }}
       shell: bash
       run: |
-       sudo apt-get install qt5-default
-       echo "CMAKE_PREFIX_PATH=${{env.CMAKE_PREFIX_PATH}}:/home/user/Qt5/bin" >> $GITHUB_ENV
        echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
        echo "CORES=$(nproc --all)" >> $GITHUB_ENV
 
