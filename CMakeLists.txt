@@ -14,14 +14,10 @@ set(OPENSSL_ROOT_DIR D:/openssl/)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick Network)
 
+FILE(GLOB_RECURSE SOURCES src/*.cpp src/*.h src/utils/*.h)
+
 add_executable(jisho_lib
-  main.cpp
-  networkhandler.h networkhandler.cpp
-  pimpl.h
-  singleton.h
-  requestparser.h requestparser.cpp
-  translation.h
-  apihandler.h apihandler.cpp
+${SOURCES}
 )
 
 target_link_libraries(jisho_lib Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network

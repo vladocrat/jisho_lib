@@ -9,6 +9,6 @@ struct Translation {
 
     operator QString() const noexcept
     {
-        return furigana + " " + kanji + " " + meaning;
+        return "Furigana: " + furigana + " Kanji: " + kanji + " Meaning: " + meaning;
     }
 };

@@ -3,7 +3,7 @@
 #include <QObject>
 #include <QVector>
 
-#include "pimpl.h"
+#include "utils/pimpl.h"
 #include "translation.h"
 
 class ApiHandler final : public QObject

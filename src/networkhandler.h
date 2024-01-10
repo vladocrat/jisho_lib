@@ -2,8 +2,8 @@
 
 #include <QNetworkReply>
 
-#include "pimpl.h"
-#include "singleton.h"
+#include "utils/pimpl.h"
+#include "utils/singleton.h"
 
 class NetworkHandler final : public Singleton<NetworkHandler>
 {

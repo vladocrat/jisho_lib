@@ -12,7 +12,10 @@ int main(int argc, char *argv[])
     auto handler = new ApiHandler;
 
     QObject::connect(handler, &ApiHandler::finished, [](const QVector<Translation>& translations){
-        qDebug() << translations;
+        for (const auto& translation : translations)
+        {
+            qDebug() << translation;
+        }
     });
 
     handler->translate("こんにちは");

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "pimpl.h"
 #include "translation.h"
 
 class RequestParser final
