@@ -11,4 +11,11 @@ struct Translation {
     {
         return "Furigana: " + furigana + " Kanji: " + kanji + " Meaning: " + meaning;
     }
+
+    [[nodiscard]] bool operator==(const Translation& rhs)
+    {
+        return this->furigana == rhs.furigana
+               && this->kanji == rhs.kanji
+               && this->meaning == rhs.meaning;
+    }
 };
