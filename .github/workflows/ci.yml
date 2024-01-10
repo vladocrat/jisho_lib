@@ -45,6 +45,20 @@ jobs:
         target: 'desktop'
         arch: 'win64_msvc2019_64'
         tools: 'tools_cmake tools_opensslv3_x64'
+
+    - name: "Install OpenSSL (Win; 2019)"
+      if: ${{ matrix.os == 'windows-2019'}}
+      run: |
+        $url = "https://www.openssl.org/source/openssl-3.0.0.tar.gz"
+        $downloadPath = "$env:TEMP\openssl.tar.gz"
+        Invoke-WebRequest -Uri $url -OutFile $downloadPath
+        tar -xf $downloadPath -C $env:TEMP
+        Move-Item -Path $env:TEMP\openssl-* -Destination $env:ProgramFiles
+        Remove-Item $downloadPath
+
+        $opensslPath = "$env:ProgramFiles\openssl\bin"
+        $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
+        [System.Environment]::SetEnvironmentVariable("PATH", "$opensslPath;$currentPath", [System.EnvironmentVariableTarget]::Machine)
     
     - name: "Set OS-specific values (Win; 2019)"
       if: ${{ matrix.os == 'windows-2019' }}
