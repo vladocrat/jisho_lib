@@ -22,9 +22,7 @@ jobs:
       shell: bash
       run: |
        sudo apt-get install qt5-default
-       cd opt/Qt5/bin
-       echo ls
-       echo "CMAKE_PREFIX_PATH=${{env.CMAKE_PREFIX_PATH}}:/opt/Qt5/bin" >> $GITHUB_ENV
+       echo "CMAKE_PREFIX_PATH=${{env.CMAKE_PREFIX_PATH}}:/home/user/Qt5/bin" >> $GITHUB_ENV
        echo "GENERATOR=Unix Makefiles" >> $GITHUB_ENV
        echo "CORES=$(nproc --all)" >> $GITHUB_ENV
 
