@@ -50,7 +50,7 @@ jobs:
       if: ${{ matrix.os == 'windows-2019'}}
       shell: bash
       run: |
-        cd ${{github.workspace}}
+        cd "${{github.workspace}}"
         git clone https://github.com/vladocrat/openssl_3-2-0_windows_x64      
         
         $opensslPath = "${{github.workspace\openssl_3-2-0_windows_x64\bin}}"
