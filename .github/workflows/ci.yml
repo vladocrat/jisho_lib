@@ -48,15 +48,12 @@ jobs:
 
     - name: "Install OpenSSL (Win; 2019)"
       if: ${{ matrix.os == 'windows-2019'}}
+      shell: bash
       run: |
-        $url = "https://www.openssl.org/source/openssl-3.2.0.tar.gz"
-        $downloadPath = "$env:TEMP\openssl.tar.gz"
-        Invoke-WebRequest -Uri $url -OutFile $downloadPath
-        tar -xf $downloadPath -C $env:TEMP
-        Move-Item -Path $env:TEMP\openssl-* -Destination $env:ProgramFiles
-        Remove-Item $downloadPath
-
-        $opensslPath = "$env:ProgramFiles\openssl\bin"
+        cd ${{github.workspace}}
+        git clone https://github.com/vladocrat/openssl_3-2-0_windows_x64      
+        
+        $opensslPath = "${{github.workspace\openssl_3-2-0_windows_x64\bin}}"
         $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
         [System.Environment]::SetEnvironmentVariable("PATH", "$opensslPath;$currentPath", [System.EnvironmentVariableTarget]::Machine)
     
@@ -76,7 +73,7 @@ jobs:
       working-directory: ${{github.workspace}}/src
       shell: bash
       run: |
-       cmake -DOPENSSL_ROOT_DIR="$env:ProgramFiles/openssl" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
+       cmake -DOPENSSL_ROOT_DIR="${{github.workspace\openssl_3-2-0_windows_x64\bin}}" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
        cmake --build "${{github.workspace}}/build" --config "${{matrix.build_type}}" -j "${{env.CORES}}"
        ctest --rerun-failed --output-on-failure --timeout 20 -C "${{matrix.build_type}}" --test-dir "${{github.workspace}}/build/tests"
 
