@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(OpenSSL)
+find_package(OpenSSL REQUIRED)
 
 if (OpenSSL_FOUND)
     message("open ssl found")
@@ -29,5 +29,5 @@ add_subdirectory(tests)
 target_include_directories(jisho_lib PUBLIC headers)
 
 target_link_libraries(jisho_lib Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network
-    OpenSSL::Crypto)
+    OpenSSL::SSL OpenSSL::Crypto)
 
