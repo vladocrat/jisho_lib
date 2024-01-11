@@ -30,6 +30,8 @@ else()
     add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src ${CMAKE_CURRENT_BINARY_DIR}/googletest-build)
 endif()
 
+enable_testing()
+
 FILE(GLOB_RECURSE SOURCES *.cpp)
 
 set(PROJECT_TEST_NAME test-${PROJECT_NAME})
