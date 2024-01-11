@@ -9,12 +9,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(OPENSSL_ROOT_DIR D:/openssl/)
+message(${CMAKE_CURRENT_SOURCE_DIR})
+message(${CMAKE_CURRENT_BINARY_DIR})
+message(${CMAKE_PREFIX_PATH})
 
-find_package(OpenSSL REQUIRED)
+find_package(OpenSSL)
 
 if (OpenSSL_FOUND)
     message("open ssl found")
+    message(${OPENSSL_INCLUDE_DIR})
 endif()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick Network)
