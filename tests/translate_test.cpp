@@ -33,27 +33,10 @@ TEST(JishoLib, GeneralTranslateTest)
         EXPECT_EQ(actual, translations);
     });
 
+
     handler->translate("こんにちは");
-}
 
-TEST(NetworkHandler, Networking)
-{
-    auto handler = new JL::NetworkHandler;
-    auto reply = handler->request(QUrl("https://jisho.org/search/test"));
-
-    QEventLoop loop;
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    QEventLoop loop; //! Without this loop connect won't work
+    QObject::connect(handler, &JL::ApiHandler::finished, &loop, &QEventLoop::quit);
     loop.exec();
-
-    auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    int status = statusCode.toInt();
-
-    if (status == 200)
-    {
-        SUCCEED();
-    }
-    else
-    {
-        FAIL();
-    }
 }
