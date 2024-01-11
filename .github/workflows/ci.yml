@@ -53,7 +53,7 @@ jobs:
         cd "${{github.workspace}}"
         git clone https://github.com/vladocrat/openssl_3-2-0_windows_x64      
         
-        $opensslPath = "${{github.workspace\openssl_3-2-0_windows_x64\bin}}"
+        $opensslPath = "${{github.workspace\\openssl_3-2-0_windows_x64\\bin}}"
         $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
         [System.Environment]::SetEnvironmentVariable("PATH", "$opensslPath;$currentPath", [System.EnvironmentVariableTarget]::Machine)
     
@@ -73,7 +73,7 @@ jobs:
       working-directory: ${{github.workspace}}/src
       shell: bash
       run: |
-       cmake -DOPENSSL_ROOT_DIR="${{github.workspace\openssl_3-2-0_windows_x64\bin}}" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
+       cmake -DOPENSSL_ROOT_DIR="${{github.workspace\\openssl_3-2-0_windows_x64\\bin}}" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
        cmake --build "${{github.workspace}}/build" --config "${{matrix.build_type}}" -j "${{env.CORES}}"
        ctest --rerun-failed --output-on-failure --timeout 20 -C "${{matrix.build_type}}" --test-dir "${{github.workspace}}/build/tests"
 
