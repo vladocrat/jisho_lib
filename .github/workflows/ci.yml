@@ -53,9 +53,10 @@ jobs:
         cd "${{github.workspace}}"
         git clone https://github.com/vladocrat/openssl_3-2-0_windows_x64      
         
-        $opensslPath = "${{github.workspace}}/openssl_3-2-0_windows_x64/bin"
-        $currentPath = [System.Environment]::GetEnvironmentVariable("PATH", [System.EnvironmentVariableTarget]::Machine)
-        [System.Environment]::SetEnvironmentVariable("PATH", "$opensslPath;$currentPath", [System.EnvironmentVariableTarget]::Machine)
+        opensslPath = "${{github.workspace}}/openssl_3-2-0_windows_x64/bin"
+        currentPath=$(echo $PATH)
+        export PATH="$opensslPath:$currentPath"
+
     
     - name: "Set OS-specific values (Win; 2019)"
       if: ${{ matrix.os == 'windows-2019' }}
