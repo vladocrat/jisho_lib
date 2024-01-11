@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <QDebug>
+#include <QEventLoop>
 
 #include "apihandler.h"
+#include "networkhandler.h"
 
 TEST(TranslationEq, TranslationObj)
 {
@@ -21,12 +23,37 @@ TEST(JishoLib, GeneralTranslateTest)
 
     auto handler = new JL::ApiHandler;
 
-    QObject::connect(handler, &JL::ApiHandler::finished, [](const QVector<JL::Translation>& translations){
-        for (const auto& translation : translations)
-        {
-            qDebug() << translation;
-        }
+    QObject::connect(handler, &JL::ApiHandler::finished, [handler](const QVector<JL::Translation>& translations){
+        handler->deleteLater();
+
+        QVector<JL::Translation> actual{ {"こんにち", "今日は\u200B", "hello; good day; good afternoon今日は 【こんにちわ】"},
+                                         {"", "こんにちはアン〜BeforeGreenGables\u200B", "Kon'nichiwa Anne: Before Green Gables"},
+                                         {"", "こんにちは\u200B", "Aló Presidente"} };
+
+        EXPECT_EQ(actual, translations);
     });
 
     handler->translate("こんにちは");
+}
+
+TEST(NetworkHandler, Networking)
+{
+    auto handler = new JL::NetworkHandler;
+    auto reply = handler->request(QUrl("https://jisho.org/search/test"));
+
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    auto statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    int status = statusCode.toInt();
+
+    if (status == 200)
+    {
+        SUCCEED();
+    }
+    else
+    {
+        FAIL();
+    }
 }
