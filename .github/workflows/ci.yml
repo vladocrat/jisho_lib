@@ -73,11 +73,8 @@ jobs:
       if: ${{ matrix.os == 'windows-2019'}}
       working-directory: ${{github.workspace}}/src
       shell: bash
-      run: |
-       opensslPath="${{github.workspace}}\\openssl_3-2-0_windows_x64\\bin"
-       export PATH="$opensslPath\\bin:$PATH"
-      
-       cmake -DOPENSSL_ROOT_DIR="$opensslPath" -DCMAKE_PREFIX_PATH="$opensslPath" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
+      run: |      
+       cmake -DOPENSSL_ROOT_DIR="${{github.workspace}}\openssl_3-2-0_windows_x64\bin" -DCMAKE_PREFIX_PATH="$opensslPath" -DCMAKE_BUILD_TYPE="${{matrix.build_type}}" -G "${{env.GENERATOR}}" -S "${{github.workspace}}/src" -B "${{github.workspace}}/build"
        cmake --build "${{github.workspace}}/build" --config "${{matrix.build_type}}" -j "${{env.CORES}}"
        ctest --rerun-failed --output-on-failure --timeout 20 -C "${{matrix.build_type}}" --test-dir "${{github.workspace}}/build/tests"
 
