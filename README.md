@@ -12,8 +12,8 @@ This lib is written in:
 
 * C++17
 * Qt 5.15.2
-* Cmake 3.14
-* OpenSSL 3.2.0
+* Cmake 3.8
+* OpenSSL 3.2.0 ([this](https://github.com/vladocrat/openssl_3-2-0_windows_x64) version works for me)
 
 ## Usage
 
