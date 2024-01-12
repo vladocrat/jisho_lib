@@ -19,7 +19,7 @@ public:
     void translate(const QString&) noexcept;
 
 signals:
-    void finished(const QVector<Translation>&);
+    void finished(const QVector<Translation>&, int status_code);
 
 private:
     DECLARE_PIMPL

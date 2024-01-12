@@ -32,9 +32,11 @@ void ApiHandler::translate(const QString& word) noexcept
     auto reply = impl().handler.request(QUrl(Constants::address + word));;
 
     QObject::connect(reply, &QNetworkReply::finished, this, [reply, this]() {
-        reply->deleteLater();
+        auto status_code {reply->attribute(QNetworkRequest::HttpStatusCodeAttribute)};
         auto translations = impl().parser.parse(reply->readAll());
-        emit finished(translations);
+        emit finished(translations, status_code.toInt());
+
+        reply->deleteLater();
     });
 }
 
