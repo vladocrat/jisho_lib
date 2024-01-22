@@ -3,10 +3,14 @@
 #include <QCoreApplication>
 #include <QTimer>
 
+#include "translation.h"
+
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
     QCoreApplication a(argc, argv);
+
+    JL::Translation::registerType();
 
     QTimer::singleShot(0, [&]()
     {

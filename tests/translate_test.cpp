@@ -27,6 +27,8 @@ TEST(JishoLib, GeneralTranslateTest)
 
         if (status_code != 200) FAIL();
 
+        qDebug() << translations;
+
         SUCCEED();
     });
 

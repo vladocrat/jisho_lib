@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QString>
 #include <QRegularExpressionMatchIterator>
+#include <QtConcurrent/QtConcurrent>
 
 namespace Internal
 {
@@ -48,73 +49,83 @@ QVector<Translation> RequestParser::parse(const QString& data) noexcept
     auto body = Internal::prepareDoc(data);
     auto blocks = Internal::getBlocks(body);
 
-    QVector<Translation> ret;
+    auto ret = new QVector<Translation>;
 
-    for (const auto& block : blocks)
+    QObject::connect(this, &RequestParser::finishedProcessing, this, [ret](const Translation& translation)
     {
-        QXmlStreamReader xml(block);
+        ret->append(translation);
+    });
 
-        QStringList furigana;
-        QStringList kanji;
-        QStringList meaning;
+    QtConcurrent::map(blocks, [this](const QString& block) {
+        processBlock(block.toUtf8());
+    });
 
-        bool isFurigana = false;
-        bool isKanji = false;
-        bool isMeaning = false;
+    return *ret;
+}
 
-        while (!xml.atEnd() && !xml.hasError())
+void RequestParser::processBlock(const QByteArray &block)
+{
+    QXmlStreamReader xml(block);
+
+    QStringList furigana;
+    QStringList kanji;
+    QStringList meaning;
+
+    bool isFurigana = false;
+    bool isKanji = false;
+    bool isMeaning = false;
+
+    while (!xml.atEnd() && !xml.hasError())
+    {
+        auto token = xml.readNext();
+
+        if (token == QXmlStreamReader::StartElement && xml.name().toString() == "span")
         {
-            auto token = xml.readNext();
-
-            if (token == QXmlStreamReader::StartElement && xml.name().toString() == "span")
+            if (Internal::hasClass(xml, "kanji-2-up kanji"))
             {
-                if (Internal::hasClass(xml, "kanji-2-up kanji"))
-                {
-                    isFurigana = true;
-                }
-                else if (Internal::hasClass(xml, "text") || xml.attributes().isEmpty())
-                {
-                    isKanji = true;
-                }
-                else if (Internal::hasClass(xml, "meaning-meaning"))
-                    isMeaning = true;
+                isFurigana = true;
             }
-            else if (token == QXmlStreamReader::Characters)
+            else if (Internal::hasClass(xml, "text") || xml.attributes().isEmpty())
             {
-                if (isFurigana)
-                {
-                    auto text = xml.text().toString();
-                    text.replace(" ", "");
+                isKanji = true;
+            }
+            else if (Internal::hasClass(xml, "meaning-meaning"))
+                isMeaning = true;
+        }
+        else if (token == QXmlStreamReader::Characters)
+        {
+            if (isFurigana)
+            {
+                auto text = xml.text().toString();
+                text.replace(" ", "");
 
-                    if (!text.isEmpty())
-                        furigana.append(text);
+                if (!text.isEmpty())
+                    furigana.append(text);
 
-                    isFurigana = false;
-                }
+                isFurigana = false;
+            }
 
-                if (isKanji)
-                {
-                    auto text = xml.text().toString();
-                    text.replace(" ", "");
+            if (isKanji)
+            {
+                auto text = xml.text().toString();
+                text.replace(" ", "");
 
-                    if (!text.isEmpty())
-                        kanji.append(text);
+                if (!text.isEmpty())
+                    kanji.append(text);
 
-                    isKanji = false;
-                }
+                isKanji = false;
+            }
 
-                if (isMeaning)
-                {
-                    meaning.append(xml.text().toString());
-                    isMeaning = false;
-                }
+            if (isMeaning)
+            {
+                meaning.append(xml.text().toString());
+                isMeaning = false;
             }
         }
-
-        ret.append({furigana.join(""), kanji.join(""), meaning.join("")});
     }
 
-    return ret;
+    Translation t{furigana.join(""), kanji.join(""), meaning.join("")};
+    emit finishedProcessing(t);
 }
 
 } //! JL

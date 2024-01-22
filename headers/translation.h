@@ -2,6 +2,11 @@
 
 #include <QString>
 #include <tuple>
+#include <QMetaType>
+
+namespace JL{struct Translation;}; //! Forwarding for metatype macro
+
+Q_DECLARE_METATYPE(JL::Translation);
 
 namespace JL
 {
@@ -11,6 +16,9 @@ struct Translation {
     QString kanji;
     QString meaning;
 
+    Translation() = default;
+    ~Translation() = default;
+
     operator QString() const noexcept
     {
         return "Furigana: " + furigana + " Kanji: " + kanji + " Meaning: " + meaning;
@@ -19,6 +27,11 @@ struct Translation {
     [[nodiscard]] constexpr auto asTuple() const noexcept
     {
         return std::tie(furigana, kanji, meaning);
+    }
+
+    static void registerType()
+    {
+        qRegisterMetaType<Translation>("Translation");
     }
 };
 
@@ -33,3 +46,4 @@ struct Translation {
 }
 
 } //! JL
+

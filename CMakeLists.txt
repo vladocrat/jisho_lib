@@ -9,6 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+set(OPENSSL_ROOT_DIR D:/openssl)
+
 find_package(OpenSSL REQUIRED)
 
 if (OpenSSL_FOUND)
@@ -16,7 +18,7 @@ if (OpenSSL_FOUND)
 endif()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick Network)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick Network Concurrent)
 
 FILE(GLOB_RECURSE SOURCES src/*.cpp headers/*.h headers/utils/*.h)
 
@@ -28,6 +30,6 @@ add_subdirectory(tests)
 
 target_include_directories(jisho_lib PUBLIC headers)
 
-target_link_libraries(jisho_lib Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network
+target_link_libraries(jisho_lib Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Concurrent
     OpenSSL::SSL OpenSSL::Crypto)
 
